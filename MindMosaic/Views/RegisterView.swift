@@ -19,27 +19,75 @@ struct RegisterView: View {
     @State private var error = ""
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Register")
-                .font(.title)
-            TextField("Username", text: $username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            SecureField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-
-            if !error.isEmpty {
-                Text(error).foregroundColor(.red)
-            }
-
-            Button("Create Account") {
-                if userManager.register(username: username, password: password) {
-                    dismiss()
-                } else {
-                    error = "Username already exists"
+        ZStack{
+            Rectangle()
+                .ignoresSafeArea()
+                .foregroundColor(.iceColdBlue)
+            
+            VStack(spacing: 20) {
+                Text("Register")
+                    .font(.title)
+                    .fontWeight(.black)
+                    .foregroundStyle(.regularMaterial)
+                
+                Spacer()
+                
+                Image(systemName: "person.crop.circle.badge.plus")
+                                        .font(.system(size: 60, weight: .light))
+                                        .foregroundColor(.white.opacity(0.9))
+                                        .padding(.bottom, 4)
+                
+                TextField("Username", text: $username)
+                                            .textFieldStyle(.plain)
+                                            .safeAreaInset(edge: .leading, content: {Image(systemName: "person")})
+                                            .padding()
+                                            .background(Color.white.opacity(0.80))
+                                            .cornerRadius(12)
+                                            .frame(width: 300)
+                                            .autocapitalization(.none)
+                                            
+                
+                SecureField("Password", text: $password)
+                                           .textFieldStyle(.plain)
+                                           .safeAreaInset(edge: .leading, content: {Image(systemName: "lock")})
+                                           .padding()
+                                           .background(Color.white.opacity(0.80))
+                                           .cornerRadius(12)
+                                           .frame(width: 300)
+                
+                
+                if !error.isEmpty {
+                    Text(error).foregroundColor(.red)
                 }
+                
+                Button{
+                    if username.isEmpty {
+                        error = "Username is empty"
+                    }
+                    else if password.isEmpty {
+                        error = "Password is empty"
+                    }
+                    else if userManager.register(username: username, password: password) {
+                        dismiss()
+                    } else {
+                        error = "Username already exists"
+                    }
+                } label: {
+                    Text("Create Account")
+                        .padding(20)
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(26)
+                        .padding(.horizontal, 20)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    
+                }
+                .padding()
+                Spacer()
             }
             .padding()
         }
-        .padding()
     }
 }
+
+
