@@ -8,35 +8,6 @@ struct MoodCheckInView: View {
 
     let moods = ["😄", "😊", "🙂", "😐", "😟", "😢", "😡", "😴", "😰", "😌", "🤯", "🥳", "😭", "😶‍🌫️"]
 
-    let affirmations = [
-        "You are enough.",
-        "Take it one step at a time.",
-        "Breathe. You’re doing your best.",
-        "Your feelings are valid.",
-        "Today is a new beginning.",
-        "Let go of what you can't control.",
-        "I am worthy of love and belonging.",
-        "I am capable of handling whatever comes my way.",
-        "I choose peace and calm in this moment.",
-        "I am strong, resilient, and courageous.",
-        "I trust my intuition and inner wisdom.",
-        "I am open to receiving joy and abundance.",
-        "I embrace challenges as opportunities for growth.",
-        "I am kind to myself and others.",
-        "I forgive myself for past mistakes.",
-        "I am making progress every day.",
-        "I am grateful for all the good in my life.",
-        "I radiate positivity and attract positive experiences.",
-        "I am in control of my thoughts and feelings.",
-        "I am enough, just as I am.",
-        "I believe in my ability to succeed.",
-        "I am present and appreciate this moment.",
-        "I nurture my mind, body, and spirit.",
-        "I am surrounded by love and support.",
-        "I create a life I love.",
-        "Today is a new and wonderful beginning."
-    ]
-
     var body: some View {
         ZStack {
             LinearGradient(
@@ -91,7 +62,7 @@ struct MoodCheckInView: View {
                         viewModel.addMood(mood: selectedMood, note: note)
                         selectedMood = "😊"
                         note = ""
-                        randomAffirmation = affirmations.randomElement() ?? ""
+                        fetchRandomAffirmation()
                     }
                     .buttonStyle(.borderedProminent)
                     .padding()
@@ -104,7 +75,32 @@ struct MoodCheckInView: View {
             }
         }
         .onAppear {
-            randomAffirmation = affirmations.randomElement() ?? ""
+            fetchRandomAffirmation()
         }
+    }
+    
+    func fetchRandomAffirmation() {
+        guard let url = URL(string: "https://zenquotes.io/api/random") else {
+            randomAffirmation = "Failed to load affirmation."
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                if let quote = try? JSONDecoder().decode([Quote].self, from: data).first {
+                    DispatchQueue.main.async {
+                        randomAffirmation = "\"\(quote.q)\"\n– \(quote.a)"
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        randomAffirmation = "Could not decode affirmation."
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    randomAffirmation = "Network error. Try again later."
+                }
+            }
+        }.resume()
     }
 }

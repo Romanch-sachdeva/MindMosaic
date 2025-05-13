@@ -35,7 +35,7 @@ struct MoodGraphView: View {
             .ignoresSafeArea()
             
             VStack {
-                Text("My Mood Over Time")
+                Text("My Mood Wellbeing Over Time")
                     .font(.title2)
                     .padding()
                 
@@ -54,17 +54,7 @@ struct MoodGraphView: View {
         }
     }
 
-    // Convert emojis to numeric score (customize as needed)
-    /*private func moodScore(from mood: String) -> Double {
-        switch mood {
-        case "😊": return 5
-        case "😌": return 4
-        case "😴": return 3
-        case "😰": return 2
-        case "😢", "😡": return 1
-        default: return 3
-        }
-    }*/
+    
     private func moodScore(from mood: String) -> Double {
         switch mood {
         case "🥳": return 5

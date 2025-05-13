@@ -75,8 +75,6 @@ struct DailyWellnessView: View {
 
     private func loadDailyCards() {
         let today = Calendar.current.startOfDay(for: Date())
-        //let today = Date() // Replace this with mock date for testing
-        // Example:
         let mockDate = Calendar.current.date(from: DateComponents(year: 2025, month: 5, day: 5))!
 
         let savedDate = UserDefaults.standard.object(forKey: "lastWellnessDate") as? Date

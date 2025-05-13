@@ -41,7 +41,8 @@ struct RegisterView: View {
                                             .textFieldStyle(.plain)
                                             .safeAreaInset(edge: .leading, content: {Image(systemName: "person")})
                                             .padding()
-                                            .background(Color.white.opacity(0.80))
+                                            .background(Color(.systemBackground).opacity(0.8))
+
                                             .cornerRadius(12)
                                             .frame(width: 300)
                                             .autocapitalization(.none)
@@ -51,7 +52,8 @@ struct RegisterView: View {
                                            .textFieldStyle(.plain)
                                            .safeAreaInset(edge: .leading, content: {Image(systemName: "lock")})
                                            .padding()
-                                           .background(Color.white.opacity(0.80))
+                                           .background(Color(.systemBackground).opacity(0.8))
+
                                            .cornerRadius(12)
                                            .frame(width: 300)
                 
@@ -60,27 +62,14 @@ struct RegisterView: View {
                     Text(error).foregroundColor(.red)
                 }
                 
-                Button{
-                    if username.isEmpty {
-                        error = "Username is empty"
-                    }
-                    else if password.isEmpty {
-                        error = "Password is empty"
-                    }
-                    else if userManager.register(username: username, password: password) {
+                Button("Create Account") {
+                    if !isPasswordStrong(password) {
+                        error = "Password must be 8+ chars with uppercase, lowercase, and number."
+                    } else if userManager.register(username: username, password: password) {
                         dismiss()
                     } else {
                         error = "Username already exists"
                     }
-                } label: {
-                    Text("Create Account")
-                        .padding(20)
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(26)
-                        .padding(.horizontal, 20)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                    
                 }
                 .padding()
                 Spacer()
@@ -91,3 +80,8 @@ struct RegisterView: View {
 }
 
 
+func isPasswordStrong(_ password: String) -> Bool {
+    // Minimum 8 characters, at least one uppercase, one lowercase, one number
+    let regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+    return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: password)
+}

@@ -9,6 +9,13 @@
 
 // UserManager.swift
 import Foundation
+import CryptoKit
+
+func hashPassword(_ password: String) -> String {
+    let inputData = Data(password.utf8)
+    let hashed = SHA256.hash(data: inputData)
+    return hashed.compactMap { String(format: "%02x", $0) }.joined()
+}
 
 class UserManager: ObservableObject {
     @Published var users: [User] = []
@@ -22,16 +29,22 @@ class UserManager: ObservableObject {
 
     func register(username: String, password: String) -> Bool {
         guard !users.contains(where: { $0.username == username }) else {
-            return false // Username already exists
+            return false
         }
-        let newUser = User(username: username, password: password)
+        guard isPasswordStrong(password) else {
+            return false
+        }
+
+        let hashedPassword = hashPassword(password)
+        let newUser = User(username: username, passwordHash: hashedPassword)
         users.append(newUser)
         saveUsers()
         return true
     }
 
     func login(username: String, password: String) -> Bool {
-        if let user = users.first(where: { $0.username == username && $0.password == password }) {
+        let hashedPassword = hashPassword(password)
+        if let user = users.first(where: { $0.username == username && $0.passwordHash == hashedPassword }) {
             loggedInUser = user
             return true
         }

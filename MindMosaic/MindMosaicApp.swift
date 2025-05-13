@@ -1,23 +1,3 @@
-/*import SwiftUI
-
-@main
-struct MindMosaicApp: App {
-    
-    @StateObject private var viewModel = MoodViewModel()
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .environmentObject(viewModel)
-                .onAppear {
-                    MusicPlayer.shared.playRandomTrack()
-                }
-        }
-    }
-}*/
-
-
-// AppMain.swift
 import SwiftUI
 
 @main
@@ -34,7 +14,6 @@ struct MindMosaicApp: App {
                         .environmentObject(userManager)
                         .environmentObject(viewModel)
                 } else {
-                    // Lazily create the ViewModel after login
                     Color.clear
                         .onAppear {
                             moodViewModel = MoodViewModel(username: user.username)

@@ -138,24 +138,17 @@ struct MindfulnessCenterView: View {
     }
 
     private func loadDailyCards() {
+        // Always fetch a new set of shuffled cards
+        dailyCards = Array(allCards.shuffled().prefix(3))
+
         let today = Calendar.current.startOfDay(for: Date())
-        let mockDate = Calendar.current.date(from: DateComponents(year: 2025, month: 5, day: 6))!
+        UserDefaults.standard.set(today, forKey: "lastWellnessDate")
+        UserDefaults.standard.set(dailyCards.map { $0.id.uuidString }, forKey: "dailyWellnessIDs")
 
-        let savedDate = UserDefaults.standard.object(forKey: "lastWellnessDate") as? Date
-        let savedCardIDs = UserDefaults.standard.array(forKey: "dailyWellnessIDs") as? [String]
-
-        if let savedDate = savedDate, Calendar.current.isDate(savedDate, inSameDayAs: mockDate), let ids = savedCardIDs {
-            dailyCards = allCards.filter { ids.contains($0.id.uuidString) }
-        } else {
-            dailyCards = Array(allCards.shuffled().prefix(3))
-            UserDefaults.standard.set(today, forKey: "lastWellnessDate")
-            UserDefaults.standard.set(dailyCards.map { $0.id.uuidString }, forKey: "dailyWellnessIDs")
-        }
-
+        // Reset the flipped states for the new set of cards
         flippedStates = Dictionary(uniqueKeysWithValues: dailyCards.map { ($0.id, false) })
     }
 }
-
 
 struct AudioPlayerView: View {
     let resource: String

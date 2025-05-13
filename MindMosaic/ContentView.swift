@@ -30,7 +30,10 @@ struct ContentView: View {
                 .tabItem {
                     Label("Graph", systemImage: "chart.line.uptrend.xyaxis")
                 }
-            
+            SelfHelpBookView()
+                .tabItem {
+                    Label("Books", systemImage: "books.vertical.fill")
+                }
 
         }
     }
