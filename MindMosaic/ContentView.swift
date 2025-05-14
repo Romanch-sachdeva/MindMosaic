@@ -12,29 +12,34 @@ struct ContentView: View {
                     Label("Check-In", systemImage: "square.and.pencil")
                 }
 
-            MoodHistoryView()
-                .tabItem {
-                    Label("History", systemImage: "clock")
-                }
             MindfulnessCenterView()
                 .tabItem {
                     Label("Center", systemImage: "sparkles")
                 }
+            AIChatView()
+                            .tabItem {
+                                Label("Chat", systemImage: "bubble.left.and.bubble.right")
+                            }
 
             MindfulMomentView()
                 .tabItem {
                     Label("Breathe", systemImage: "wind")
-                }
-            
-            MoodGraphView()
-                .tabItem {
-                    Label("Graph", systemImage: "chart.line.uptrend.xyaxis")
                 }
             SelfHelpBookView()
                 .tabItem {
                     Label("Books", systemImage: "books.vertical.fill")
                 }
 
+            MoodHistoryView()
+                .tabItem {
+                    Label("History", systemImage: "clock")
+                }
+            
+            MoodGraphView()
+                .tabItem {
+                    Label("Graph", systemImage: "chart.line.uptrend.xyaxis")
+                }
+            
         }
     }
 }
