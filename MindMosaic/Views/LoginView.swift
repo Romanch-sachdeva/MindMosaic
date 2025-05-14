@@ -10,48 +10,78 @@ struct LoginView: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.2), Color.purple.opacity(0.2)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                gradient: Gradient(colors: [Color.white, Color.cyan.opacity(0.3)]),
+                startPoint: .top,
+                endPoint: .bottom
             )
             .ignoresSafeArea()
 
-            VStack(spacing: 20) {
+            VStack(spacing: 30) {
+                Spacer().frame(height: 20)
+
+                // Header Image
                 Image("mmlogo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 150, height: 150)
-                    .padding(.top, 50)
+                    .frame(width: 220, height: 220)
+                    .cornerRadius(30)
 
-                Text("MindMosaic")
-                    .font(.largeTitle)
-                    .bold()
+                Text("Studio Shodwe Present")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
 
-                styledInputField(icon: "person", placeholder: "Username", text: $username, placeholderColor: .white.opacity(0.6))
+                Text("\"Mindful Moments, Your Pocket Companion to Wellness\"")
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .foregroundColor(.black)
 
-                styledInputField(icon: "lock", placeholder: "Password", text: $password, isSecure: true, placeholderColor: .white.opacity(0.6))
+                VStack(spacing: 16) {
+                    styledInputField(icon: "person.fill", placeholder: "Username", text: $username)
+                    styledInputField(icon: "lock.fill", placeholder: "Password", text: $password, isSecure: true)
 
+                    if loginFailed {
+                        Text("Invalid credentials")
+                            .foregroundColor(.red)
+                            .font(.caption)
+                    }
 
-                if loginFailed {
-                    Text("Invalid credentials").foregroundColor(.red)
+                    Button(action: {
+                        loginFailed = !userManager.login(username: username, password: password)
+                    }) {
+                        Text("Login")
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.cyan.opacity(0.6))
+                            .foregroundColor(.white)
+                            .cornerRadius(25)
+                    }
+
+                    Button(action: {
+                        showRegister = true
+                    }) {
+                        Text("Sign Up")
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .foregroundColor(.white)
+                            .cornerRadius(25)
+                    }
+                    .sheet(isPresented: $showRegister) {
+                        RegisterView()
+                    }
                 }
-
-                Button("Login") {
-                    loginFailed = !userManager.login(username: username, password: password)
-                }
-                .buttonStyle(.borderedProminent)
-                .padding(.top)
-
-                Button("Register") {
-                    showRegister = true
-                }
-                .sheet(isPresented: $showRegister) {
-                    RegisterView()
-                }
+                .padding(.horizontal)
 
                 Spacer()
+
+                Text("www.mindmosaic.com")
+                    .font(.caption2)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 10)
             }
-            .padding()
         }
     }
 }
@@ -61,8 +91,7 @@ func styledInputField(
     icon: String,
     placeholder: String,
     text: Binding<String>,
-    isSecure: Bool = false,
-    placeholderColor: Color = .gray
+    isSecure: Bool = false
 ) -> some View {
     HStack {
         Image(systemName: icon)
@@ -71,26 +100,23 @@ func styledInputField(
         ZStack(alignment: .leading) {
             if text.wrappedValue.isEmpty {
                 Text(placeholder)
-                    .foregroundColor(placeholderColor)
+                    .foregroundColor(.gray)
                     .padding(.leading, 2)
             }
 
             if isSecure {
                 SecureField("", text: text)
                     .autocapitalization(.none)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
             } else {
                 TextField("", text: text)
                     .autocapitalization(.none)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
             }
         }
     }
     .padding()
-    .background(
-        RoundedRectangle(cornerRadius: 12)
-            .fill(Color.black.opacity(0.15))
-            .shadow(color: .white.opacity(0.1), radius: 5, x: 0, y: 2)
-    )
-    .padding(.horizontal)
+    .background(Color.white)
+    .cornerRadius(15)
+    .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
 }

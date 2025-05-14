@@ -1,13 +1,3 @@
-//
-//  RegisterView.swift
-//  MindMosaic
-//
-//  Created by Romanch Sachdeva on 6/5/2025.
-//
-
-
-
-// RegisterView.swift
 import SwiftUI
 
 struct RegisterView: View {
@@ -19,50 +9,41 @@ struct RegisterView: View {
     @State private var error = ""
 
     var body: some View {
-        ZStack{
-            Rectangle()
-                .ignoresSafeArea()
-                .foregroundColor(.iceColdBlue)
-            
-            VStack(spacing: 20) {
-                Text("Register")
-                    .font(.title)
-                    .fontWeight(.black)
-                    .foregroundStyle(.regularMaterial)
-                
-                Spacer()
-                
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [Color.white, Color.cyan.opacity(0.3)]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 25) {
+                Spacer().frame(height: 20)
+
                 Image(systemName: "person.crop.circle.badge.plus")
-                                        .font(.system(size: 60, weight: .light))
-                                        .foregroundColor(.white.opacity(0.9))
-                                        .padding(.bottom, 4)
-                
-                TextField("Username", text: $username)
-                                            .textFieldStyle(.plain)
-                                            .safeAreaInset(edge: .leading, content: {Image(systemName: "person")})
-                                            .padding()
-                                            .background(Color(.systemBackground).opacity(0.8))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .foregroundColor(.cyan.opacity(0.7))
 
-                                            .cornerRadius(12)
-                                            .frame(width: 300)
-                                            .autocapitalization(.none)
-                                            
-                
-                SecureField("Password", text: $password)
-                                           .textFieldStyle(.plain)
-                                           .safeAreaInset(edge: .leading, content: {Image(systemName: "lock")})
-                                           .padding()
-                                           .background(Color(.systemBackground).opacity(0.8))
+                Text("Create Your Account")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.black)
 
-                                           .cornerRadius(12)
-                                           .frame(width: 300)
-                
-                
+                styledInputField(icon: "person.fill", placeholder: "Username", text: $username)
+                styledInputField(icon: "lock.fill", placeholder: "Password", text: $password, isSecure: true)
+
                 if !error.isEmpty {
-                    Text(error).foregroundColor(.red)
+                    Text(error)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
                 }
-                
-                Button("Create Account") {
+
+                Button(action: {
                     if !isPasswordStrong(password) {
                         error = "Password must be 8+ chars with uppercase, lowercase, and number."
                     } else if userManager.register(username: username, password: password) {
@@ -70,8 +51,16 @@ struct RegisterView: View {
                     } else {
                         error = "Username already exists"
                     }
+                }) {
+                    Text("Create Account")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(25)
                 }
-                .padding()
+
                 Spacer()
             }
             .padding()
@@ -79,9 +68,43 @@ struct RegisterView: View {
     }
 }
 
+@ViewBuilder
+/*func styledInputField(
+    icon: String,
+    placeholder: String,
+    text: Binding<String>,
+    isSecure: Bool = false
+) -> some View {
+    HStack {
+        Image(systemName: icon)
+            .foregroundColor(.gray)
 
+        ZStack(alignment: .leading) {
+            if text.wrappedValue.isEmpty {
+                Text(placeholder)
+                    .foregroundColor(.gray)
+                    .padding(.leading, 2)
+            }
+
+            if isSecure {
+                SecureField("", text: text)
+                    .autocapitalization(.none)
+                    .foregroundColor(.black)
+            } else {
+                TextField("", text: text)
+                    .autocapitalization(.none)
+                    .foregroundColor(.black)
+            }
+        }
+    }
+    .padding()
+    .background(Color.white)
+    .cornerRadius(15)
+    .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
+    .padding(.horizontal)
+}
+*/
 func isPasswordStrong(_ password: String) -> Bool {
-    // Minimum 8 characters, at least one uppercase, one lowercase, one number
     let regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
     return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: password)
 }
