@@ -1,5 +1,6 @@
 import SwiftUI
 
+// main start of the app
 @main
 struct MindMosaicApp: App {
     @StateObject private var userManager = UserManager()
@@ -8,6 +9,8 @@ struct MindMosaicApp: App {
 
     var body: some Scene {
         WindowGroup {
+            //send both user and vm to content
+            //will throw error otherwise
             if let user = userManager.loggedInUser {
                 if let viewModel = moodViewModel {
                     ContentView()
@@ -20,6 +23,7 @@ struct MindMosaicApp: App {
                         }
                 }
             } else {
+                //start play bgm here
                 LoginView()
                     .environmentObject(userManager)
                     .onAppear {

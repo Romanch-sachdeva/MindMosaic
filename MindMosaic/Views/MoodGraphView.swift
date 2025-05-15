@@ -1,14 +1,13 @@
 //
 //  MoodGraphView.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 1/5/2025.
-//
+
 
 
 import SwiftUI
 import Charts
 
+// shows mood histry in chart over time
 struct MoodGraphView: View {
     
     @EnvironmentObject var viewModel: MoodViewModel
@@ -18,6 +17,7 @@ struct MoodGraphView: View {
             Calendar.current.startOfDay(for: $0.date)
         }
 
+        // each mapped to mood stat and avg but also ignores date(day)
         return grouped.map { (date, entries) in
             let average = entries.map { moodScore(from: $0.mood) }.reduce(0, +) / Double(entries.count)
             return MoodStat(date: date, averageScore: average)
@@ -54,7 +54,7 @@ struct MoodGraphView: View {
         }
     }
 
-    
+    //emoji to number for scoring
     private func moodScore(from mood: String) -> Double {
         switch mood {
         case "🥳": return 5
@@ -74,6 +74,7 @@ struct MoodGraphView: View {
 
 }
 
+//for avg mood
 struct MoodStat: Identifiable {
     var id: Date { date }
     let date: Date

@@ -1,11 +1,15 @@
 import Foundation
 
+
+// mood logic for adding and getting mood history and tracking
 class MoodViewModel: ObservableObject {
     @Published var entries: [MoodEntry] = []
     @Published var streak: Int = 0
     private var username: String
 
     //private let fileName = "mood_history.json"
+    // gets mood per user
+    //earlier was same for all
     private var fileName: String {
         return "mood_history_\(username).json"
     }
@@ -34,6 +38,7 @@ class MoodViewModel: ObservableObject {
         }
     }
 
+    //get mood from local
     private func load() {
         let url = getDocumentsDirectory().appendingPathComponent(fileName)
         if let data = try? Data(contentsOf: url) {
@@ -47,6 +52,8 @@ class MoodViewModel: ObservableObject {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
 
+    //for streak purpose
+    // TODO: check with team if needs to be removed
     private func calculateStreak() {
         let calendar = Calendar.current
         var currentStreak = 0

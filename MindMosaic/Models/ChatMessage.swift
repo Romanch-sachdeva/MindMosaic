@@ -1,0 +1,5 @@
+//
+//  ChatMessage.swift
+//  MindMosaic
+
+

@@ -2,12 +2,12 @@
 //  SelfHelpBookView.swift
 //  MindMosaic
 //
-//  Created by Romanch Sachdeva on 10/5/2025.
-//
 
 
 import SwiftUI
 
+//selfhealing books view based on only meditation subject
+//change in vm if needed
 struct SelfHelpBookView: View {
     @State private var books: [Book] = []
     @State private var searchText = ""
@@ -68,6 +68,7 @@ struct SelfHelpBookView: View {
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                         
+                                        //opens in browser if clicked
                                         if let link = book.openLibraryURL {
                                             Link(destination: link) {
                                                 Text("Read Book")
@@ -100,6 +101,7 @@ struct SelfHelpBookView: View {
         }
     }
 
+    //search books makes another call to api
     private func searchBooks() {
         isLoading = true
         BookAPIService.shared.searchBooks(query: searchText.isEmpty ? "self help" : searchText) { books in

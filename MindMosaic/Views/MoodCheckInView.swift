@@ -1,11 +1,14 @@
 import SwiftUI
 
+// main page after login
+// keep track of mood with emoji
 struct MoodCheckInView: View {
     @EnvironmentObject var viewModel: MoodViewModel
     @State private var selectedMood = "😊"
     @State private var note = ""
     @State private var randomAffirmation = ""
 
+    //user mod emoji
     let moods = ["😄", "😊", "🙂", "😐", "😟", "😢", "😡", "😴", "😰", "😌", "🤯", "🥳", "😭", "😶‍🌫️"]
 
     var body: some View {
@@ -79,6 +82,7 @@ struct MoodCheckInView: View {
         }
     }
     
+    //get quotes from zenquotes api
     func fetchRandomAffirmation() {
         guard let url = URL(string: "https://zenquotes.io/api/random") else {
             randomAffirmation = "Failed to load affirmation."

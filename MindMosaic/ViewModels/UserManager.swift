@@ -1,22 +1,21 @@
 //
 //  UserManager.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 6/5/2025.
-//
 
 
 
-// UserManager.swift
 import Foundation
 import CryptoKit
 
+// hash password
 func hashPassword(_ password: String) -> String {
     let inputData = Data(password.utf8)
     let hashed = SHA256.hash(data: inputData)
     return hashed.compactMap { String(format: "%02x", $0) }.joined()
 }
 
+
+// for user rego, login
 class UserManager: ObservableObject {
     @Published var users: [User] = []
     @Published var loggedInUser: User?
@@ -51,6 +50,7 @@ class UserManager: ObservableObject {
         return false
     }
 
+    //saves user in file per file
     private func saveUsers() {
         do {
             let data = try JSONEncoder().encode(users)

@@ -1,14 +1,15 @@
 //
 //  BookAPIService.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 10/5/2025.
-//
+
 import Foundation
 
+// gets books from the poenlibrary api
 class BookAPIService {
     static let shared = BookAPIService()
-
+    
+    // only gets books in or under subject meditation
+    // can be remoed to otherwise show other books available as well
     func searchBooks(query: String = "self help", completion: @escaping ([Book]) -> Void) {
         guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: "https://openlibrary.org/search.json?q=\(encodedQuery)&subject=Meditation") else {

@@ -1,13 +1,12 @@
 //
 //  MindfulMomentView.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 1/5/2025.
-//
 
 
 import SwiftUI
 
+//breathe in breate out page...
+//TODO: sould it be added to the main page? check with team
 struct MindfulMomentView: View {
     @State private var scale: CGFloat = 1.0
 

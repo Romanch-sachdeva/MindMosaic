@@ -7,6 +7,9 @@
 
 import Foundation
 
+// check with openrouter ai service
+//key needs to be changed
+// if error thrown key has expired
 class OpenRouterService {
     static let shared = OpenRouterService()
     private let apiKey = "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"
@@ -30,8 +33,9 @@ class OpenRouterService {
                "content": userInput
            ]
 
+        
            let body: [String: Any] = [
-               "model": "openai/gpt-3.5-turbo", // You can also use "mistralai/mistral-7b-instruct"
+               "model": "openai/gpt-3.5-turbo",
                "messages": [systemMessage, userMessage],
                "temperature": 0.8
            ]
@@ -40,6 +44,7 @@ class OpenRouterService {
                return "Failed to encode body"
            }
 
+            // amke req
            var request = URLRequest(url: url)
            request.httpMethod = "POST"
            request.allHTTPHeaderFields = headers
@@ -48,16 +53,15 @@ class OpenRouterService {
            do {
                let (data, _) = try await URLSession.shared.data(for: request)
 
-               // Debug print to see full response
+               //json for bedug
                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
                    print("RAW JSON:\n", json)
                }
 
-               // Try to decode
                let result = try JSONDecoder().decode(OpenAIResponse.self, from: data)
                return result.choices.first?.message.content.trimmingCharacters(in: .whitespacesAndNewlines) ?? "No message returned"
            } catch {
-               print("❌ Decode Error: \(error)")
+               print("Decode Error: \(error)")
                return "Failed to decode response"
            }
        }

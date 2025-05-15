@@ -1,5 +1,6 @@
 import SwiftUI
 
+//rego view other than login
 struct RegisterView: View {
     @EnvironmentObject var userManager: UserManager
     @Environment(\.dismiss) var dismiss
@@ -32,6 +33,7 @@ struct RegisterView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
 
+                //get user and pass
                 styledInputField(icon: "person.fill", placeholder: "Username", text: $username)
                 styledInputField(icon: "lock.fill", placeholder: "Password", text: $password, isSecure: true)
 
@@ -68,42 +70,7 @@ struct RegisterView: View {
     }
 }
 
-@ViewBuilder
-/*func styledInputField(
-    icon: String,
-    placeholder: String,
-    text: Binding<String>,
-    isSecure: Bool = false
-) -> some View {
-    HStack {
-        Image(systemName: icon)
-            .foregroundColor(.gray)
-
-        ZStack(alignment: .leading) {
-            if text.wrappedValue.isEmpty {
-                Text(placeholder)
-                    .foregroundColor(.gray)
-                    .padding(.leading, 2)
-            }
-
-            if isSecure {
-                SecureField("", text: text)
-                    .autocapitalization(.none)
-                    .foregroundColor(.black)
-            } else {
-                TextField("", text: text)
-                    .autocapitalization(.none)
-                    .foregroundColor(.black)
-            }
-        }
-    }
-    .padding()
-    .background(Color.white)
-    .cornerRadius(15)
-    .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
-    .padding(.horizontal)
-}
-*/
+//password regex
 func isPasswordStrong(_ password: String) -> Bool {
     let regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
     return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: password)

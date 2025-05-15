@@ -1,13 +1,13 @@
 //
 //  MoodHistoryView.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 1/5/2025.
-//
+
 
 
 import SwiftUI
 
+
+//only shows history per day and in list
 struct MoodHistoryView: View {
     
     @EnvironmentObject var viewModel: MoodViewModel

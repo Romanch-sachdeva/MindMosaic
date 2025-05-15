@@ -6,6 +6,7 @@
 
 import Foundation
 
+//json from openai api response
 struct OpenAIResponse: Codable {
     let id: String
     let choices: [Choice]
@@ -17,7 +18,7 @@ struct OpenAIResponse: Codable {
     }
 
     struct Message: Codable {
-        let role: String
+        let role: String //of msg sender
         let content: String
     }
 }

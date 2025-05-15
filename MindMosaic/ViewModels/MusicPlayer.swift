@@ -1,13 +1,13 @@
 //
 //  MusicPlayer.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 4/5/2025.
-//
 
 
 import AVFoundation
 
+//only handles bgm
+// add more calm music
+// also does randomizaation is done for all songs
 class MusicPlayer: ObservableObject {
     static let shared = MusicPlayer()
     var player: AVAudioPlayer?
@@ -24,9 +24,10 @@ class MusicPlayer: ObservableObject {
             return
         }
 
+        //loop foreever
         do {
             player = try AVAudioPlayer(contentsOf: url)
-            player?.numberOfLoops = -1 // loop indefinitely
+            player?.numberOfLoops = -1
             player?.play()
         } catch {
             print("Failed to play music: \(error.localizedDescription)")

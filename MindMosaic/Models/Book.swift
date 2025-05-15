@@ -1,11 +1,11 @@
 //
 //  Book.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 10/5/2025.
-//
+
 import Foundation
 
+//get single book(s) from openlib api
+// get author
 struct Book: Identifiable, Decodable {
     var id: String { key }
 
@@ -29,6 +29,7 @@ struct Book: Identifiable, Decodable {
 
 }
 
+// api response
 struct BookResponse: Decodable {
     let docs: [Book]
 }

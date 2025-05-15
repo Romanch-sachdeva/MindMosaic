@@ -1,18 +1,19 @@
 //
 //  MindfulnessCenterView.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 4/5/2025.
-//
+
 
 import SwiftUI
 import AVKit
 
+// media center page for meditation
 struct MindfulnessCenterView: View {
     @State private var selectedMedia: MindfulnessMedia?
     @State private var dailyCards: [WellnessCard] = []
     @State private var flippedStates: [UUID: Bool] = [:]
 
+    //sounds for meditation
+    // can add more
     let mindfulnessMediaItems: [MindfulnessMedia] = [
         MindfulnessMedia(title: "Calming Breath", type: .video, thumbnail: "calm_breath_thumb", resource: "calm_breath"),
         MindfulnessMedia(title: "Ocean Sleep Sounds", type: .audio, thumbnail: "ocean_thumb", resource: "ocean_sleep"),
@@ -20,6 +21,8 @@ struct MindfulnessCenterView: View {
         MindfulnessMedia(title: "Forest Ambience", type: .audio, thumbnail: "forest_thumb", resource: "forest_ambience")
     ]
 
+    // yoga cards
+    //can add more
     private let allCards: [WellnessCard] = [
         WellnessCard(title: "Downward Dog", imageName: "yoga1", description: "A full-body stretch improving flexibility."),
         WellnessCard(title: "Tree Pose", imageName: "yoga2", description: "Enhances balance and stability."),
@@ -138,14 +141,14 @@ struct MindfulnessCenterView: View {
     }
 
     private func loadDailyCards() {
-        // Always fetch a new set of shuffled cards
+        // Always fetch a new set cards
         dailyCards = Array(allCards.shuffled().prefix(3))
 
         let today = Calendar.current.startOfDay(for: Date())
         UserDefaults.standard.set(today, forKey: "lastWellnessDate")
         UserDefaults.standard.set(dailyCards.map { $0.id.uuidString }, forKey: "dailyWellnessIDs")
 
-        // Reset the flipped states for the new set of cards
+        // Reset flipped state
         flippedStates = Dictionary(uniqueKeysWithValues: dailyCards.map { ($0.id, false) })
     }
 }
@@ -165,7 +168,8 @@ struct AudioPlayerView: View {
             Text(resource.replacingOccurrences(of: "_", with: " ").capitalized)
         }
         .onAppear {
-            MusicPlayer.shared.stop()  // Ensure BGM is stopped here too
+            MusicPlayer.shared.stop()  // make bgm stop
+            //not working
             if let url = Bundle.main.url(forResource: resource, withExtension: "mp3") {
                 do {
                     player = try AVAudioPlayer(contentsOf: url)
@@ -178,7 +182,7 @@ struct AudioPlayerView: View {
 
         .onDisappear {
             player?.stop()
-            MusicPlayer.shared.playRandomTrack()  // Resume background music
+            MusicPlayer.shared.playRandomTrack()
         }
 
     }

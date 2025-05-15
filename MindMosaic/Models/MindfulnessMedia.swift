@@ -1,11 +1,10 @@
 //
 //  MindfulnessMedia.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 4/5/2025.
-//
+
 import Foundation
 
+// mindful item and med
 struct MindfulnessMedia: Identifiable {
     let id = UUID()
     let title: String

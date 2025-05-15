@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// ai help page
 struct AIChatView: View {
     @State private var userInput = ""
     @State private var messages: [ChatMessage] = []
@@ -31,6 +32,7 @@ struct AIChatView: View {
                             .padding(.horizontal)
                         }
 
+                        // dots when ai coming up with something
                         if isLoading {
                             HStack {
                                 TypingIndicator()
@@ -90,7 +92,6 @@ struct AIChatView: View {
     }
 }
 
-
 struct ChatMessage: Identifiable {
     let id = UUID()
     let text: String
@@ -98,6 +99,8 @@ struct ChatMessage: Identifiable {
 }
 
 
+
+//chat msg bubble
 struct ChatBubble: View {
     let message: String
     let isUser: Bool
@@ -112,7 +115,7 @@ struct ChatBubble: View {
     }
 }
 
-
+// typing typing...
 struct TypingIndicator: View {
     @State private var dotCount = 1
     let timer = Timer.publish(every: 0.4, on: .main, in: .common).autoconnect()

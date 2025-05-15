@@ -1,9 +1,6 @@
 //
 //  Item.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 1/5/2025.
-//
 
 import Foundation
 import SwiftData

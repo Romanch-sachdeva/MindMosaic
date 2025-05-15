@@ -1,13 +1,12 @@
 //
 //  MoodEntry.swift
 //  MindMosaic
-//
-//  Created by Romanch Sachdeva on 1/5/2025.
-//
+
 
 
 import Foundation
 
+// mood item entry takes date, mood, text from user
 struct MoodEntry: Identifiable, Codable {
     let id = UUID()
     let date: Date

@@ -1,5 +1,6 @@
 import SwiftUI
 
+// login main view
 struct LoginView: View {
     @EnvironmentObject var userManager: UserManager
     @State private var username = ""
@@ -19,23 +20,22 @@ struct LoginView: View {
             VStack(spacing: 30) {
                 Spacer().frame(height: 20)
 
-                // Header Image
+                //app logo
                 Image("mmlogo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 220, height: 220)
                     .cornerRadius(30)
 
-                Text("Studio Shodwe Present")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
 
-                Text("\"Mindful Moments, Your Pocket Companion to Wellness\"")
+                Text("\"MindMosaic, Your Pocket Companion to Wellness\"")
                     .font(.headline)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                     .foregroundColor(.black)
 
+                
+                //login section
                 VStack(spacing: 16) {
                     styledInputField(icon: "person.fill", placeholder: "Username", text: $username)
                     styledInputField(icon: "lock.fill", placeholder: "Password", text: $password, isSecure: true)
@@ -86,6 +86,7 @@ struct LoginView: View {
     }
 }
 
+//input view, also secure 
 @ViewBuilder
 func styledInputField(
     icon: String,
