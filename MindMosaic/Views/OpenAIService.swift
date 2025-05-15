@@ -12,7 +12,7 @@ import Foundation
 // if error thrown key has expired
 class OpenRouterService {
     static let shared = OpenRouterService()
-    private let apiKey = "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"
+    private let apiKey = "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"
 
     func getResponse(for userInput: String) async -> String {
            guard let url = URL(string: "https://openrouter.ai/api/v1/chat/completions") else {

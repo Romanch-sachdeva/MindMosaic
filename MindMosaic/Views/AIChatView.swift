@@ -15,66 +15,75 @@ struct AIChatView: View {
     @Namespace private var bottomID
 
     var body: some View {
-        VStack {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(spacing: 12) {
-                        ForEach(messages) { msg in
-                            HStack {
-                                if msg.isUser {
-                                    Spacer()
-                                    ChatBubble(message: msg.text, isUser: true)
-                                } else {
-                                    ChatBubble(message: msg.text, isUser: false)
+        ZStack {
+            // Background Gradient
+            LinearGradient(
+                gradient: Gradient(colors: [Color.blue.opacity(0.2), Color.purple.opacity(0.2)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+            VStack {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 12) {
+                            ForEach(messages) { msg in
+                                HStack {
+                                    if msg.isUser {
+                                        Spacer()
+                                        ChatBubble(message: msg.text, isUser: true)
+                                    } else {
+                                        ChatBubble(message: msg.text, isUser: false)
+                                        Spacer()
+                                    }
+                                }
+                                .padding(.horizontal)
+                            }
+                            
+                            // dots when ai coming up with something
+                            if isLoading {
+                                HStack {
+                                    TypingIndicator()
                                     Spacer()
                                 }
+                                .padding(.horizontal)
                             }
-                            .padding(.horizontal)
+                            
+                            Color.clear
+                                .frame(height: 1)
+                                .id(bottomID)
                         }
-
-                        // dots when ai coming up with something
-                        if isLoading {
-                            HStack {
-                                TypingIndicator()
-                                Spacer()
+                        .padding(.vertical)
+                        .onChange(of: messages.count) { _ in
+                            withAnimation {
+                                proxy.scrollTo(bottomID)
                             }
-                            .padding(.horizontal)
-                        }
-
-                        Color.clear
-                            .frame(height: 1)
-                            .id(bottomID)
-                    }
-                    .padding(.vertical)
-                    .onChange(of: messages.count) { _ in
-                        withAnimation {
-                            proxy.scrollTo(bottomID)
                         }
                     }
                 }
-            }
-
-            HStack {
-                TextField("Share how you feel...", text: $userInput)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(isLoading)
-
-                Button {
-                    Task { await sendMessage() }
-                } label: {
-                    Image(systemName: "paperplane.fill")
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .background(Color.blue)
-                        .clipShape(Circle())
+                
+                HStack {
+                    TextField("Share how you feel...", text: $userInput)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .disabled(isLoading)
+                    
+                    Button {
+                        Task { await sendMessage() }
+                    } label: {
+                        Image(systemName: "paperplane.fill")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color.blue)
+                            .clipShape(Circle())
+                    }
+                    .disabled(userInput.isEmpty || isLoading)
                 }
-                .disabled(userInput.isEmpty || isLoading)
+                .padding()
+                .background(Color(UIColor.secondarySystemBackground))
             }
-            .padding()
-            .background(Color(UIColor.secondarySystemBackground))
+            .navigationTitle("Wellness Chat")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationTitle("Wellness Chat")
-        .navigationBarTitleDisplayMode(.inline)
     }
 
     func sendMessage() async {

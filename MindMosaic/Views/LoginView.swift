@@ -21,7 +21,7 @@ struct LoginView: View {
                 Spacer().frame(height: 20)
 
                 //app logo
-                Image("mmlogo")
+                Image("mmlogo2")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 220, height: 220)
