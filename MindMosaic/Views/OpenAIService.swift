@@ -9,10 +9,10 @@ import Foundation
 
 // check with openrouter ai service
 //key needs to be changed
-// if error thrown key has expired
+// if error thrown key has expired(as this si paid it may need to be updated again)
 class OpenRouterService {
     static let shared = OpenRouterService()
-    private let apiKey = "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"
+    private let apiKey = "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"
 
     func getResponse(for userInput: String) async -> String {
            guard let url = URL(string: "https://openrouter.ai/api/v1/chat/completions") else {
